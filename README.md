@@ -95,7 +95,7 @@ nextflow run main.nf \
 | Parameter | Default | Description |
 |-----------|---------|-------------|
 | `--samplesheet` | *required* | Path to input CSV file |
-| `--dorado_model` | `dna_r10.4.1_e8.2_400bps_sup@v5.0.0` | Default basecalling model (SUP accuracy) |
+| `--dorado_model` | `sup` | Default basecalling model (uses latest SUP model) |
 | `--scratch_dir` | `/scratch/$USER/ont-lifecycle` | Local staging directory |
 | `--delete_raw` | `false` | Delete raw data after verified upload |
 | `--include_fail` | `true` | Include pod5_fail in processing |
@@ -118,9 +118,30 @@ process {
 
 ### Profiles
 
-- `slurm` - Run on Slurm cluster (default executor)
-- `local` - Run locally (for testing)
-- `test` - Use test samplesheet
+Profiles can be combined with commas (e.g., `-profile slurm,apptainer`).
+
+**Executor profiles:**
+| Profile | Description |
+|---------|-------------|
+| `slurm` | Run on Slurm cluster (default executor) |
+| `local` | Run locally (for testing) |
+| `test` | Use test samplesheet |
+
+**Container profiles:**
+| Profile | Description |
+|---------|-------------|
+| `apptainer` | Use Apptainer containers (recommended for HPC) |
+| `singularity` | Use Singularity containers (legacy) |
+| `docker` | Use Docker containers (requires Docker with GPU support) |
+
+**Example:**
+```bash
+# Slurm with Apptainer containers
+nextflow run main.nf -profile slurm,apptainer --samplesheet samples.csv
+
+# Local with Docker
+nextflow run main.nf -profile local,docker --samplesheet samples.csv
+```
 
 ## Output
 
