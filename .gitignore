@@ -1,0 +1,29 @@
+# Nextflow
+.nextflow/
+.nextflow.log*
+work/
+results/
+reports/
+
+# Singularity/Apptainer images
+*.sif
+*.img
+
+# Scratch data
+scratch/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Credentials (never commit these!)
+*.json
+!nextflow_schema.json
+credentials/
+.gcp/
