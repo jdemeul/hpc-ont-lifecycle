@@ -64,7 +64,7 @@ SAMPLE003,gs://my-bucket/runs/20240201_RunID/,
 ### Running the Workflow
 
 ```bash
-# Basic run (no deletion)
+# Basic run (no deletion, includes failed reads by default)
 nextflow run main.nf \
     -profile slurm \
     --samplesheet samples.csv
@@ -75,11 +75,17 @@ nextflow run main.nf \
     --samplesheet samples.csv \
     --delete_raw true
 
-# Include failed reads in basecalling
+# Exclude failed reads from basecalling
 nextflow run main.nf \
     -profile slurm \
     --samplesheet samples.csv \
-    --include_fail true
+    --include_fail false
+
+# Use a different basecalling model
+nextflow run main.nf \
+    -profile slurm \
+    --samplesheet samples.csv \
+    --dorado_model "dna_r10.4.1_e8.2_400bps_hac@v5.0.0"
 ```
 
 ## Configuration
@@ -89,10 +95,10 @@ nextflow run main.nf \
 | Parameter | Default | Description |
 |-----------|---------|-------------|
 | `--samplesheet` | *required* | Path to input CSV file |
-| `--dorado_model` | `dna_r10.4.1_e8.2_400bps_hac@v4.3.0` | Default basecalling model |
+| `--dorado_model` | `dna_r10.4.1_e8.2_400bps_sup@v5.0.0` | Default basecalling model (SUP accuracy) |
 | `--scratch_dir` | `/scratch/$USER/ont-lifecycle` | Local staging directory |
 | `--delete_raw` | `false` | Delete raw data after verified upload |
-| `--include_fail` | `false` | Include pod5_fail in processing |
+| `--include_fail` | `true` | Include pod5_fail in processing |
 
 ### Cluster Configuration
 
